@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { evaluateGameAsset, parseMarketImage } from './services/geminiService';
-import { dataService, DELTA_HOT_ITEMS, DELTA_COLLECTION_WEAPONS_BASE, DELTA_QUALITIES } from './services/dataService';
-import { authService } from './services/authService';
-import { translations, Language } from './services/i18n';
-import { ValuationRequest, ValuationResponse, GameField, GameConfigMap, User } from './types';
-import AdminDashboard from './AdminDashboard';
+import { evaluateGameAsset, parseMarketImage } from './services/geminiService.ts';
+import { dataService, DELTA_HOT_ITEMS, DELTA_COLLECTION_WEAPONS_BASE, DELTA_QUALITIES } from './services/dataService.ts';
+import { authService } from './services/authService.ts';
+import { translations, Language } from './services/i18n.ts';
+import { ValuationRequest, ValuationResponse, GameField, GameConfigMap, User } from './types.ts';
+import AdminDashboard from './AdminDashboard.tsx';
 import html2canvas from 'html2canvas';
 import { 
   BoltIcon, SparklesIcon, ArrowPathIcon,
@@ -117,7 +117,7 @@ const InfoSectionAbout = ({ t }: { t: any }) => (
   <div className="max-w-3xl mx-auto p-8 animate-fade-in">
     <div className="bg-void-900/50 border border-white/5 rounded-2xl p-8 text-center">
        <div className="w-20 h-20 bg-gradient-to-br from-primary to-blue-600 rounded-2xl mx-auto mb-6 flex items-center justify-center text-black font-bold text-3xl shadow-neon">PZ</div>
-       <h2 className="text-3xl font-bold text-white mb-2">SINGULARITY NEBULA</h2>
+       <h2 className="text-3xl font-bold text-white mb-2">玄鹿AI</h2>
        <p className="text-primary/60 text-sm font-bold tracking-widest mb-6">GAME ASSET VALUATION SYSTEM</p>
        <div className="grid grid-cols-1 gap-8 text-left mb-8">
           <div>

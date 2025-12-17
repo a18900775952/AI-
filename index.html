@@ -1,12 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PZ | SINGULARITY NEBULA</title>
+    <title>PZ | 玄鹿AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Babel Standalone for In-Browser Compilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -51,90 +52,52 @@
               'card': '0 20px 40px -10px rgba(0,0,0,0.5)',
             },
             animation: {
-              'scan': 'scan 8s linear infinite',
-              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'float': 'float 6s ease-in-out infinite',
+              'spin-slow': 'spin 3s linear infinite',
+              'fade-in': 'fadeIn 0.5s ease-out',
+              'fade-in-up': 'fadeInUp 0.5s ease-out',
+              'scale-in': 'scaleIn 0.3s ease-out',
+              'float': 'float 3s ease-in-out infinite',
             },
             keyframes: {
-              scan: {
-                '0%': { backgroundPosition: '0 0' },
-                '100%': { backgroundPosition: '0 50px' },
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              scaleIn: {
+                '0%': { transform: 'scale(0.9)', opacity: '0' },
+                '100%': { transform: 'scale(1)', opacity: '1' },
               },
               float: {
-                 '0%, 100%': { transform: 'translateY(0)' },
-                 '50%': { transform: 'translateY(-10px)' },
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
               }
             }
           },
         },
       }
     </script>
-    <style>
-      body {
-        background-color: #0B0C15;
-        color: #e2e8f0;
-        overflow-x: hidden;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      
-      /* Sleek Scrollbar */
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: #0B0C15; }
-      ::-webkit-scrollbar-thumb { background: #2A2D45; border-radius: 3px; }
-      ::-webkit-scrollbar-thumb:hover { background: #00F2EA; }
-
-      /* Premium Glass Panel */
-      .glass-panel {
-        background: rgba(19, 20, 31, 0.6);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-      }
-      
-      /* Crystal Input */
-      .input-crystal {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .input-crystal:focus {
-        border-color: rgba(0, 242, 234, 0.6);
-        background: rgba(0, 242, 234, 0.05);
-        box-shadow: 0 0 20px rgba(0, 242, 234, 0.15);
-      }
-
-      /* Animated Background Mesh */
-      .bg-mesh {
-        background-image: radial-gradient(at 0% 0%, rgba(112,0,255,0.15) 0px, transparent 50%),
-                          radial-gradient(at 100% 100%, rgba(0,242,234,0.1) 0px, transparent 50%);
-      }
-    </style>
   <script type="importmap">
 {
   "imports": {
     "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3",
-    "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "zod": "https://esm.sh/zod@^4.2.1",
+    "html2canvas": "https://esm.sh/html2canvas@^1.4.1",
     "@heroicons/react/": "https://esm.sh/@heroicons/react@^2.2.0/",
-    "html2canvas": "https://esm.sh/html2canvas@1.4.1",
-    "xlsx": "https://esm.sh/xlsx@0.18.5",
-    "zod": "https://esm.sh/zod@3.22.4"
+    "xlsx": "https://esm.sh/xlsx@^0.18.5"
   }
 }
 </script>
 </head>
-  <body class="antialiased font-sans selection:bg-primary selection:text-black bg-nebula-gradient min-h-screen">
-    <div id="root" class="relative z-10"></div>
+  <body class="bg-[#0B0C15] text-slate-200 antialiased overflow-x-hidden selection:bg-primary/30 selection:text-white">
+    <div id="root"></div>
     
-    <!-- Atmospheric Layers -->
-    <div class="fixed inset-0 bg-mesh pointer-events-none z-0"></div>
-    <div class="fixed inset-0 bg-grid-pattern opacity-20 pointer-events-none z-0"></div>
-    
-    <!-- Light Orbs -->
-    <div class="fixed top-[-100px] left-[20%] w-[500px] h-[500px] bg-secondary/10 blur-[120px] rounded-full pointer-events-none animate-pulse-slow"></div>
-    <div class="fixed bottom-[-100px] right-[10%] w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none"></div>
+    <!-- Entry Point: Load index.tsx with Babel compilation -->
+    <script type="text/babel" data-presets="react,typescript" data-type="module" src="./index.tsx"></script>
   </body>
 </html>

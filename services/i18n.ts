@@ -4,7 +4,7 @@ export type Language = 'cn' | 'en';
 export const translations = {
   cn: {
     // Auth
-    authTitle: "星云认证",
+    authTitle: "玄鹿AI",
     authSubtitle: "安全访问网关",
     identity: "用户身份",
     passcode: "访问密钥",
@@ -80,7 +80,7 @@ export const translations = {
   },
   en: {
     // Auth
-    authTitle: "NEBULA AUTH",
+    authTitle: "XUANLU AI",
     authSubtitle: "SECURE ACCESS GATEWAY",
     identity: "IDENTITY",
     passcode: "PASSCODE",
