@@ -1,6 +1,5 @@
-
-import { ValuationRequest, ValuationResponse, InternalReference, PriceRule, PricingMatrix, AILearningInsight } from "../types";
-import { dataService } from "./dataService";
+import { ValuationRequest, ValuationResponse, InternalReference, PriceRule, PricingMatrix, AILearningInsight } from "../types.ts";
+import { dataService } from "./dataService.ts";
 import { z } from "zod";
 
 // --- CORE CONFIG ---

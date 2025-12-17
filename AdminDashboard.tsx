@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { GameConfigMap, PriceRule, InternalReference, GameField, User, UserRole, PricingMatrix, MarketReport, RuleType, ValuationActionLog, TimeFrame, AILearningInsight } from './types';
-import { dataService, DELTA_QUALITIES } from './services/dataService';
-import { authService } from './services/authService';
-import { bulkParseTradingData, processExcelData, generateLearningInsight } from './services/geminiService';
+import { GameConfigMap, PriceRule, InternalReference, GameField, User, UserRole, PricingMatrix, MarketReport, RuleType, ValuationActionLog, TimeFrame, AILearningInsight } from './types.ts';
+import { dataService, DELTA_QUALITIES } from './services/dataService.ts';
+import { authService } from './services/authService.ts';
+import { bulkParseTradingData, processExcelData, generateLearningInsight } from './services/geminiService.ts';
 import * as XLSX from 'xlsx';
 import { 
   XMarkIcon, PlusIcon, TrashIcon, CurrencyYenIcon, TableCellsIcon,
@@ -327,7 +327,7 @@ export default function AdminDashboard({ onClose, onUpdate, user, t }: any) {
 
   const addLog = (msg: string) => {
       const time = new Date().toLocaleTimeString();
-      setTerminalLogs(prev => [...prev, `[${time}] ${msg}`]);
+      setTerminalLogs(prev => [...prev, { time, msg }].map(l => typeof l === 'string' ? l : `[${l.time}] ${l.msg}`));
   };
 
   // --- HANDLERS ---
@@ -627,7 +627,7 @@ export default function AdminDashboard({ onClose, onUpdate, user, t }: any) {
       <div className="h-16 border-b border-white/10 flex items-center justify-between px-8 bg-void-900 shadow-glass">
         <div className="flex items-center gap-4">
           <div className="w-9 h-9 bg-gradient-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center text-black shadow-neon"><Cog6ToothIcon className="w-5 h-5 animate-spin-slow" /></div>
-          <div><h2 className="text-lg font-bold text-white tracking-widest font-tech">SINGULARITY CMS</h2><div className="flex items-center gap-2 text-[10px] text-primary font-mono opacity-80">v3.1.0 <span className="text-gray-500">|</span> {isAdmin ? 'ADMIN ACCESS' : 'USER ACCESS'}</div></div>
+          <div><h2 className="text-lg font-bold text-white tracking-widest font-tech">SINGULARITY CMS</h2><div className="flex items-center gap-2 text-[10px] text-primary font-mono opacity-80">V1.0.0 (Correct Version) <span className="text-gray-500">|</span> {isAdmin ? 'ADMIN ACCESS' : 'USER ACCESS'}</div></div>
         </div>
         <div className="flex items-center gap-4">
            {isAdmin && <button onClick={handleSaveAndReboot} className="px-4 py-2 bg-white/5 hover:bg-white/10 text-xs font-bold rounded-lg border border-white/10 flex items-center gap-2"><ArrowPathIcon className="w-4 h-4" /> SAVE & REBOOT</button>}
@@ -816,16 +816,6 @@ export default function AdminDashboard({ onClose, onUpdate, user, t }: any) {
                            >
                               {renderMatrixGrid(f => f.group === '核心资产' && (f.type === 'multiselect' || f.type === 'select'), 'options')}
                            </CollapsiblePanel>
-                           
-                           {/* Add Infra Panel for completeness */}
-                           <CollapsiblePanel 
-                              title="Infrastructure & Safebox / 特勤处与安全箱" 
-                              isOpen={matrixExpanded['infra']} 
-                              onToggle={() => setMatrixExpanded(p => ({...p, infra: !p.infra}))}
-                              icon={HomeIcon}
-                           >
-                              {renderMatrixGrid(f => f.group === '特勤处' || f.key === 'safe_box', 'options')}
-                           </CollapsiblePanel>
                        </div>
                    )}
                </div>
@@ -893,19 +883,7 @@ export default function AdminDashboard({ onClose, onUpdate, user, t }: any) {
                                   <div className="grid gap-2">
                                       {fieldRules.map(rule => (
                                         <div key={rule.id} className="grid grid-cols-12 gap-2 items-center bg-void-900 p-2 rounded border border-white/5 text-xs">
-                                           {field.type === 'number' ? <div className="col-span-3 text-gray-400 font-mono pl-2">Per Unit Input</div> : 
-                                           <select value={rule.matchValue} onChange={e => updateRule(rule.id, {matchValue: e.target.value})} className="col-span-3 bg-void-950 text-white p-1 rounded border border-white/10 outline-none">
-                                               <option value="">Select Option...</option>
-                                               {field.key === 'collection_weapon' ? 
-                                                  // Explode Collection Weapons for Rules
-                                                  (field.options || []).map(opt => (
-                                                      <optgroup key={opt} label={opt}>
-                                                          {DELTA_QUALITIES.map(q => <option key={`${opt}(${q})`} value={`${opt}(${q})`}>{opt}({q})</option>)}
-                                                      </optgroup>
-                                                  )) : 
-                                                  field.options?.map(o => <option key={o} value={o}>{o}</option>)
-                                               }
-                                           </select>}
+                                           {field.type === 'number' ? <div className="col-span-3 text-gray-400 font-mono pl-2">Per Unit Input</div> : <select value={rule.matchValue} onChange={e => updateRule(rule.id, {matchValue: e.target.value})} className="col-span-3 bg-void-950 text-white p-1 rounded border border-white/10 outline-none"><option value="">Select Option...</option>{field.options?.map(o => <option key={o} value={o}>{o}</option>)}</select>}
                                            <select value={rule.type} onChange={e => updateRule(rule.id, {type: e.target.value as any})} className="col-span-2 bg-void-950 text-accent-gold p-1 rounded border border-white/10 outline-none font-bold text-center"><option value="add">+ ADD</option><option value="subtract">- SUB</option><option value="multiply">* MUL</option><option value="divide">/ DIV</option></select>
                                            <div className="col-span-3 relative"><input type="number" value={rule.price} onChange={e => updateRule(rule.id, {price: parseFloat(e.target.value)})} className="w-full bg-void-950 text-white p-1 pl-4 rounded border border-white/10 outline-none font-mono"/><span className="absolute left-1 top-1 text-gray-600">¥</span></div>
                                            <input type="text" placeholder="Note (Optional)" value={rule.keyword} onChange={e => updateRule(rule.id, {keyword: e.target.value})} className="col-span-3 bg-void-950 text-gray-500 p-1 rounded border border-white/10 outline-none"/>

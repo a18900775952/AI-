@@ -1,4 +1,4 @@
-import { GameConfigMap, GameField, PriceRule, InternalReference, LearningLog, PricingMatrix, MarketReport, ItemTrend, RiskLevel, ValuationRequest, ValuationActionLog, User, TimeFrame, AILearningInsight } from "../types";
+import { GameConfigMap, GameField, PriceRule, InternalReference, LearningLog, PricingMatrix, MarketReport, ItemTrend, RiskLevel, ValuationRequest, ValuationActionLog, User, TimeFrame, AILearningInsight } from "../types.ts";
 
 // 通用常量
 const COMMON_OS_OPTIONS = ["安卓QQ", "苹果QQ", "安卓微信", "苹果微信"];

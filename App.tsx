@@ -78,6 +78,7 @@ const LoadingLogs = () => {
 
 // --- UPDATES WITH PAGINATION ---
 const SYSTEM_UPDATES = [
+  { ver: 'V1.0', date: '2025-02-01', title: 'Official Release (Correct Ver)', desc: 'System stabilized and validated. Designated as the correct V1 version for production.\n系统核心功能验证完毕，版本号正式定为 V1 (正确版本)。', code: 'System.mark_stable(V1);' },
   { ver: 'v3.5.1', date: '2025-01-30', title: 'DeepSeek Vision (Janus)', desc: 'Switched Vision Center backend to DeepSeek Janus-Pro-7B. Enhanced OCR capabilities for game assets at zero cost.\n视觉中枢后端已切换至 DeepSeek Janus-Pro-7B，提供免费且高效的 OCR 识别能力。', code: 'use(DeepSeek_Janus_Pro);' },
   { ver: 'v3.5.0', date: '2025-01-30', title: 'Vision Core Precision', desc: 'Upgraded OCR matching algorithm. Now supports intelligent fuzzy matching for weapon skins and bundles from screenshots.\n视觉核心精度升级。新增智能模糊匹配算法，大幅提升截图识别武器皮肤与捆绑包的准确率。', code: 'match(OCR_Raw, Config_List);' },
   { ver: 'v3.4.0', date: '2025-01-29', title: 'DeepSeek V3.2 Upgrade', desc: 'Upgraded core logic to DeepSeek V3.2 via SiliconFlow for enhanced complex reasoning.\n核心逻辑升级至 DeepSeek V3.2 (SiliconFlow)，复杂推理能力大幅提升。', code: 'use(DeepSeek_V3_2);' },

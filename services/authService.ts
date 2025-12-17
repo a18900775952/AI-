@@ -1,5 +1,4 @@
-
-import { User, UserRole } from "../types";
+import { User, UserRole } from "../types.ts";
 
 const STORAGE_KEY_USERS = 'pz_users';
 const STORAGE_KEY_SESSION = 'pz_current_user';
