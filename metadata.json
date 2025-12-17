@@ -1,5 +1,5 @@
 {
-  "name": "Copy of GameValue AI - Game Asset Appraiser",
+  "name": "GameValue AI - Game Asset Appraiser",
   "description": "Professional AI-powered game account and item valuation tool using DeepSeek V3 & Qwen2-VL via SiliconFlow.",
   "requestFramePermissions": []
 }
